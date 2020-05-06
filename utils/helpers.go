@@ -2,13 +2,13 @@ package utils
 
 import "fmt"
 
-// PrintMessages prints messages with or without a number
-func PrintMessages(messages []string, showNumber bool) {
-	for index, message := range messages {
+// PrintMenu prints messages with or without a number
+func PrintMenu(menu map[int]string, showNumber bool) {
+	for key, menuItem := range menu {
 		if showNumber == true {
-			fmt.Printf("%v. %s\n", index+1, message)
+			fmt.Printf("%v. %s\n", key, menuItem)
 		} else {
-			fmt.Printf("%s\n", message)
+			fmt.Printf("%s\n", menuItem)
 		}
 	}
 }
