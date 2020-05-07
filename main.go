@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"friend-generator/utils"
 	"os"
-	"strconv"
 	"strings"
 )
 
 func main() {
 	fmt.Println(utils.MessageWelcome)
 	fmt.Println(utils.MenuInstructions)
-	utils.PrintMessages(utils.MenuMainMessages, true)
+	utils.PrintMenu(utils.MenuMainMessages, true)
 	getMenuSelection(utils.MenuMainMessages)
 }
 
@@ -26,16 +25,18 @@ func getUserInput() string {
 	return inputTrimmed
 }
 
-func getMenuSelection(menu []string) string {
-	input := getUserInput()
-	inputInt, err := strconv.Atoi(input)
-	if err != nil || inputInt > len(menu) {
-		fmt.Println("Please select an option from the menu")
-		getUserInput()
+func getMenuSelection(menu map[string]string) (menuSelection string) {
+	getInput := true
+	for getInput == true {
+		input := getUserInput()
+		_, ok := menu[input]
+		if ok == true {
+			getInput = false
+			menuSelection = menu[input]
+		} else {
+			fmt.Println(utils.MenuMessageWrongInput)
+		}
 	}
-	menuSelection := inputInt - 1
-	fmt.Println("menu selection is", menuSelection) // debugging
-	fmt.Println(menu[menuSelection])                // debugging
-	return menu[menuSelection]
+	fmt.Println(utils.SelectionUser, menuSelection)
+	return menuSelection
 }
-
