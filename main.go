@@ -10,19 +10,31 @@ import (
 
 func main() {
 	fmt.Println(utils.MessageWelcome)
-	fmt.Println(utils.MenuInstructions)
-	utils.PrintMenu(utils.MenuMainMessages, true)
-	getMenuSelection(utils.MenuMainMessages)
+	menuMain()
 }
 
-func getUserInput() string {
-	reader := bufio.NewReader(os.Stdout)
-	userInput, err := reader.ReadString('\n')
-	if err != nil {
-		fmt.Println(err)
+func menuMain() {
+	fmt.Println(utils.MenuInstructions)
+	utils.PrintMenu(utils.MenuMainOptions, true)
+	menuSelection := getMenuSelection(utils.MenuMainOptions)
+	callMenuMainFunctions(menuSelection)
+}
+
+func menuGenerator() {
+	fmt.Println(utils.MenuInstructions)
+	utils.PrintMenu(utils.MenuGeneratorOptions, true)
+	getMenuSelection(utils.MenuGeneratorOptions)
+}
+
+func callMenuMainFunctions(menuSelection string) {
+	switch menuSelection {
+	case utils.MenuMainOptions["1"]:
+		menuGenerator()
+	case utils.MenuMainOptions["2"]:
+		fmt.Println("You quit the program. Bye bye!")
+	default:
+		fmt.Println("Default option, nothing else to do") // debugging
 	}
-	inputTrimmed := strings.TrimSpace(userInput)
-	return inputTrimmed
 }
 
 func getMenuSelection(menu map[string]string) (menuSelection string) {
@@ -34,9 +46,19 @@ func getMenuSelection(menu map[string]string) (menuSelection string) {
 			getInput = false
 			menuSelection = menu[input]
 		} else {
-			fmt.Println(utils.MenuMessageWrongInput)
+			fmt.Println(utils.MessageMenuWrongInput)
 		}
 	}
-	fmt.Println(utils.SelectionUser, menuSelection)
+	fmt.Println(utils.MessageSelectionUser, menuSelection)
 	return menuSelection
+}
+
+func getUserInput() string {
+	reader := bufio.NewReader(os.Stdout)
+	userInput, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println(err)
+	}
+	inputTrimmed := strings.TrimSpace(userInput)
+	return inputTrimmed
 }
