@@ -3,7 +3,6 @@ package menu
 import (
 	"bufio"
 	"fmt"
-	"friend-generator/utils"
 	"os"
 	"strconv"
 	"strings"
@@ -30,14 +29,14 @@ func GetMenuSelection(menu map[string]string) (menuSelection string) {
 			getInput = false
 			menuSelection = menu[input]
 		} else {
-			fmt.Println(utils.MessageMenuWrongInput)
+			fmt.Println(messageMenuInvalidInput)
 		}
 	}
-	fmt.Println(utils.MessageSelectionUser, menuSelection)
+	fmt.Println(messageSelectionUser, menuSelection)
 	return menuSelection
 }
 
-// GetUserInput returns user's input
+// GetUserInput returns sanitized user input
 func GetUserInput() string {
 	reader := bufio.NewReader(os.Stdout)
 	userInput, err := reader.ReadString('\n')

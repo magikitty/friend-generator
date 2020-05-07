@@ -16,14 +16,8 @@ const MenuInstructions = `
 What do you want to do? Press the number of your choice.
 `
 
-// MessageMenuWrongInput if user did not press number corresponding to menu item
-const MessageMenuWrongInput = "Press the number of a menu item."
-
-// MessageSelectionUser for showing the user what they selected
-var MessageSelectionUser = "You selected:"
-
 // MessageWelcome greets user when they start the application
-const MessageWelcome string = "****** (^ ^) Welcome to the Friend Generator! (^ ^) ******\n"
+const MessageWelcome string = "****** (^ ^) Welcome to the Friend Generator! (^ ^) ******"
 
 // MenuGeneratorOptions contains the options for generating a friend
 var MenuGeneratorOptions = map[string]string{
