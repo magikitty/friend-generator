@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"friend-generator/menu"
 	"friend-generator/utils"
+
+	"github.com/magikitty/menu"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func callMenuMainFunctions(menuSelection string) {
 	case utils.MenuMainOptions["1"]:
 		menuGenerator()
 	case utils.MenuMainOptions["2"]:
-		fmt.Println("You quit the program. Bye bye!")
+		fmt.Println("You quit the program. Bye bye!") // debugging
 	default:
 		fmt.Println("Default option, nothing else to do") // debugging
 	}
