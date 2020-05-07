@@ -11,7 +11,10 @@ var generateFriend = "Generate Friend"
 var quit = "Quit"
 
 // MenuInstructions explains how to make a selection in the menu
-const MenuInstructions = "\n--------------------------------------------------------\nWhat do you want to do? Press the number of your choice.\n"
+const MenuInstructions = `
+--------------------------------------------------------
+What do you want to do? Press the number of your choice.
+`
 
 // MessageMenuWrongInput if user did not press number corresponding to menu item
 const MessageMenuWrongInput = "Press the number of a menu item."
