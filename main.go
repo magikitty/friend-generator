@@ -58,6 +58,11 @@ func getJSONData() FriendResponse {
 func writeDataToFile(data FriendResponse) {
 	file, _ := os.OpenFile("./jsonresponses/test.json", os.O_CREATE|os.O_WRONLY, os.ModePerm)
 	defer file.Close()
-	encoder := json.NewEncoder(file)
-	encoder.Encode(data)
+
+	jsondata, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	file.Write(jsondata)
 }
