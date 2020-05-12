@@ -2,7 +2,6 @@ package utils
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 )
@@ -34,9 +33,9 @@ type Friend struct {
 	} `json:"location"`
 }
 
-// GetJSONData returns JSON data of type FriendResponse struct
-func GetJSONData() FriendResponse {
-	response, err := http.Get("https://randomuser.me/api/?inc=gender")
+// GetJSONData returns JSON data of type FriendResponse struct from API call
+func GetJSONData(url string) FriendResponse {
+	response, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,12 +44,8 @@ func GetJSONData() FriendResponse {
 	var friendResponse FriendResponse
 	err = json.NewDecoder(response.Body).Decode(&friendResponse)
 	if err != nil {
-		// log.Fatal(err)
-		fmt.Println(err)
+		log.Println(err)
 	}
 
-	fmt.Println("The json friendResponse is", friendResponse)    // debugging
-	fmt.Println("The json gender is", friendResponse.Results[0]) // debugging
-	fmt.Println("The json page is", friendResponse.Info.Page)    // debugging
 	return friendResponse
 }
