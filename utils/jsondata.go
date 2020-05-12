@@ -7,23 +7,31 @@ import (
 	"net/http"
 )
 
-// FriendResult is a struct for json data from search
-type FriendResult struct {
-	Gender string `json:"gender"`
-}
-
-// FriendInfo is a struct for info
-type FriendInfo struct {
-	Seed        string `json:"seed"`
-	ResultsPage int    `json:"results"`
-	Page        int    `json:"page"`
-	Version     string `json:"version"`
-}
-
-// FriendResponse is a struct for top level json response data
+// FriendResponse is a struct for top level json response data from API call
 type FriendResponse struct {
-	Results []FriendResult `json:"results"`
-	Info    FriendInfo     `json:"info"`
+	Results []Friend `json:"results"`
+}
+
+// Friends is a struct containing a collection of friends
+type Friends struct {
+	FriendsCollection []Friend `json:"friends"`
+}
+
+// Friend is a struct containing selected json data for a friend
+type Friend struct {
+	Gender string `json:"gender"`
+	Name   struct {
+		Title string `json:"title"`
+		First string `json:"first"`
+		Last  string `json:"last"`
+	} `json:"name"`
+	DOB struct {
+		Date string `json:"date"`
+		Age  int    `json:"age"`
+	} `json:"dob"`
+	Location struct {
+		Country string `json:"country"`
+	} `json:"location"`
 }
 
 // GetJSONData returns JSON data of type FriendResponse struct
