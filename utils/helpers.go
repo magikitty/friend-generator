@@ -32,14 +32,18 @@ func WriteDataToFile(data FriendResponse, jsonFile string) {
 	}
 }
 
-// ReadDataFromFile reads and returns data from a JSON file
-func ReadDataFromFile(jsonFile string) FriendResponse {
-	var friendResponse FriendResponse
+// ReadDataFromFile reads and returns Friends data from JSON file
+func ReadDataFromFile(jsonFile string) Friends {
+	var friends Friends
 	jsonData, _ := ioutil.ReadFile(jsonFile)
-	err := json.Unmarshal(jsonData, &friendResponse)
+	err := json.Unmarshal(jsonData, &friends)
 	if err != nil {
 		log.Println(err)
 	}
 
-	return friendResponse
+	fmt.Println("We read and unmarshaled:", friends)                                               // debugging
+	fmt.Println("We read and unmarshaled gender:", friends.FriendsCollection[0].Gender)            // debugging
+	fmt.Println("We read and unmarshaled country:", friends.FriendsCollection[0].Location.Country) // debugging
+
+	return friends
 }
