@@ -2,34 +2,29 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 )
 
-// WriteDataToFile writes JSON data to a file
-func WriteDataToFile(data FriendResponse, jsonFile string) {
-	friendData := data.Results[0]
-	var friends Friends
-	dataSlice := friends.FriendsCollection
-	dataSlice = append(dataSlice, friendData)
-	friends = Friends{dataSlice}
+// AppendFriends appends new friends to friends collection
+func AppendFriends(responseData FriendResponse, friendsFromFile []Friend) Friends {
+	friendData := responseData.Results[0]
+	friends := Friends{friendsFromFile}
 
-	file, err := os.OpenFile(jsonFile, os.O_WRONLY|os.O_APPEND, os.ModePerm)
-	if err != nil {
-		log.Println(err)
-	}
-	defer file.Close()
+	friendsCollection := friends.FriendsCollection
+	friendsCollection = append(friendsCollection, friendData)
+	friends = Friends{friendsCollection}
 
-	jsonData, err := json.MarshalIndent(friends, "", "    ")
-	if err != nil {
-		log.Println(err)
-	}
+	return friends
+}
 
-	_, err = file.Write(jsonData)
-	if err != nil {
-		log.Println(err)
-	}
+// GetFriendsFromFile is
+func GetFriendsFromFile(fileName string) []Friend {
+	friendsFromFile := ReadDataFromFile(fileName)
+	friendsCollection := friendsFromFile.FriendsCollection
+	return friendsCollection
 }
 
 // ReadDataFromFile reads and returns Friends data from JSON file
@@ -46,4 +41,24 @@ func ReadDataFromFile(jsonFile string) Friends {
 	fmt.Println("We read and unmarshaled country:", friends.FriendsCollection[0].Location.Country) // debugging
 
 	return friends
+}
+
+// WriteDataToFile writes JSON data to a file
+func WriteDataToFile(data Friends, jsonFile string) {
+
+	file, err := os.OpenFile(jsonFile, os.O_WRONLY, os.ModePerm)
+	if err != nil {
+		log.Println(err)
+	}
+	defer file.Close()
+
+	jsonData, err := json.MarshalIndent(data, "", "    ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	_, err = file.Write(jsonData)
+	if err != nil {
+		log.Println(err)
+	}
 }
