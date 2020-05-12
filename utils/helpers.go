@@ -9,13 +9,19 @@ import (
 
 // WriteDataToFile writes JSON data to a file
 func WriteDataToFile(data FriendResponse, jsonFile string) {
-	file, err := os.OpenFile(jsonFile, os.O_CREATE|os.O_WRONLY, os.ModePerm)
+	friendData := data.Results[0]
+	var friends Friends
+	dataSlice := friends.FriendsCollection
+	dataSlice = append(dataSlice, friendData)
+	friends = Friends{dataSlice}
+
+	file, err := os.OpenFile(jsonFile, os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
 		log.Println(err)
 	}
 	defer file.Close()
 
-	jsonData, err := json.MarshalIndent(data, "", "   ")
+	jsonData, err := json.MarshalIndent(friends, "", "    ")
 	if err != nil {
 		log.Println(err)
 	}
