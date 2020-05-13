@@ -2,8 +2,6 @@ package utils
 
 import (
 	"encoding/json"
-	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -37,8 +35,6 @@ func ReadDataFromFile(filePath string) FriendsCollection {
 	}
 	err = json.Unmarshal(jsonData, &friendsCollection)
 	if err != nil {
-		fmt.Println("OMG THE ERROR IS HERE", err)                      // debugging
-		errors.New("Failed to unmarshal JSON data from" + err.Error()) // debugging
 		log.Fatal(err)
 	}
 
@@ -69,18 +65,15 @@ func WriteDataToFile(data FriendsCollection, filePath string) {
 func CreateAndPopulateFile(filePath string, responseData FriendResponse) {
 	_, err := os.Stat(filePath)
 	if err != nil {
-		fmt.Println("The file does not exist!") // debugging
 
 		_, err := os.Create(filePath)
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		friendsCollection := FriendsCollection{responseData.Results}
 		WriteDataToFile(friendsCollection, filePath)
 
 	} else {
-		fmt.Println("The file exists!") // debugging
 		friendsFromFile := GetFriendsFromFile(filePath)
 		friendsData := AppendFriends(responseData, friendsFromFile)
 		WriteDataToFile(friendsData, filePath)
