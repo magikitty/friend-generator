@@ -1,6 +1,7 @@
 package menus
 
 import (
+	"errors"
 	"fmt"
 	"friend-generator/utils"
 
@@ -18,11 +19,11 @@ func MenuMain() {
 func callMenuMainFunctions(menuSelection string) {
 	switch menuSelection {
 	case utils.MenuMainOptions["1"]:
-		menuGenerator()
+		menuGenerateFriend()
 	case utils.MenuMainOptions["2"]:
 		quit()
 	default:
-		fmt.Println("Default option, nothing else to do") // debugging
+		errors.New(utils.ErrorInvalidSelection)
 	}
 }
 
