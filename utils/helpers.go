@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,44 +10,45 @@ import (
 )
 
 // AppendFriends appends new friends to friends collection
-func AppendFriends(responseData FriendResponse, friendsFromFile []Friend) Friends {
+func AppendFriends(responseData FriendResponse, friendsFromFile []Friend) FriendsCollection {
 	friendData := responseData.Results[0]
-	friends := Friends{friendsFromFile}
+	friends := FriendsCollection{friendsFromFile}
 
-	friendsCollection := friends.FriendsCollection
-	friendsCollection = append(friendsCollection, friendData)
-	friends = Friends{friendsCollection}
+	friendsSlice := friends.FriendsSlice
+	friendsSlice = append(friendsSlice, friendData)
+	friends = FriendsCollection{friendsSlice}
 
 	return friends
 }
 
-// GetFriendsFromFile is
-func GetFriendsFromFile(fileName string) []Friend {
-	friendsFromFile := ReadDataFromFile(fileName)
-	friendsCollection := friendsFromFile.FriendsCollection
+// GetFriendsFromFile returns a collection of FriendsCollection
+func GetFriendsFromFile(filePath string) []Friend {
+	friendsFromFile := ReadDataFromFile(filePath)
+	friendsSlice := friendsFromFile.FriendsSlice
+	return friendsSlice
+}
+
+// ReadDataFromFile reads and returns FriendsCollection data from JSON file
+func ReadDataFromFile(filePath string) FriendsCollection {
+	var friendsCollection FriendsCollection
+	jsonData, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.Unmarshal(jsonData, &friendsCollection)
+	if err != nil {
+		fmt.Println("OMG THE ERROR IS HERE", err)                      // debugging
+		errors.New("Failed to unmarshal JSON data from" + err.Error()) // debugging
+		log.Fatal(err)
+	}
+
 	return friendsCollection
 }
 
-// ReadDataFromFile reads and returns Friends data from JSON file
-func ReadDataFromFile(jsonFile string) Friends {
-	var friends Friends
-	jsonData, _ := ioutil.ReadFile(jsonFile)
-	err := json.Unmarshal(jsonData, &friends)
-	if err != nil {
-		log.Println(err)
-	}
-
-	fmt.Println("We read and unmarshaled:", friends)                                               // debugging
-	fmt.Println("We read and unmarshaled gender:", friends.FriendsCollection[0].Gender)            // debugging
-	fmt.Println("We read and unmarshaled country:", friends.FriendsCollection[0].Location.Country) // debugging
-
-	return friends
-}
-
 // WriteDataToFile writes JSON data to a file
-func WriteDataToFile(data Friends, jsonFile string) {
+func WriteDataToFile(data FriendsCollection, filePath string) {
 
-	file, err := os.OpenFile(jsonFile, os.O_WRONLY, os.ModePerm)
+	file, err := os.OpenFile(filePath, os.O_WRONLY, os.ModePerm)
 	if err != nil {
 		log.Println(err)
 	}
@@ -60,5 +62,27 @@ func WriteDataToFile(data Friends, jsonFile string) {
 	_, err = file.Write(jsonData)
 	if err != nil {
 		log.Println(err)
+	}
+}
+
+// CreateAndPopulateFile creates file if it does not exist
+func CreateAndPopulateFile(filePath string, responseData FriendResponse) {
+	_, err := os.Stat(filePath)
+	if err != nil {
+		fmt.Println("The file does not exist!") // debugging
+
+		_, err := os.Create(filePath)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		friendsCollection := FriendsCollection{responseData.Results}
+		WriteDataToFile(friendsCollection, filePath)
+
+	} else {
+		fmt.Println("The file exists!") // debugging
+		friendsFromFile := GetFriendsFromFile(filePath)
+		friendsData := AppendFriends(responseData, friendsFromFile)
+		WriteDataToFile(friendsData, filePath)
 	}
 }
