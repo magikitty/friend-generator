@@ -6,17 +6,17 @@ import (
 	"net/http"
 )
 
-// FriendResponse is a struct for top level json response data from API call
+// FriendResponse represents parent slice of API call results
 type FriendResponse struct {
 	Results []Friend `json:"results"`
 }
 
-// Friends is a struct containing a collection of friends
-type Friends struct {
-	FriendsCollection []Friend `json:"friends"`
+// FriendsCollection represents a collection of friends written to a file
+type FriendsCollection struct {
+	FriendsSlice []Friend `json:"friends"`
 }
 
-// Friend is a struct containing selected json data for a friend
+// Friend represents selected json data for a friend kept in the FriendsCollection struct
 type Friend struct {
 	Gender string `json:"gender"`
 	Name   struct {
@@ -33,8 +33,8 @@ type Friend struct {
 	} `json:"location"`
 }
 
-// GetJSONData returns JSON data of type FriendResponse struct from API call
-func GetJSONData(url string) FriendResponse {
+// GetJSONFriendData returns JSON data of type FriendResponse struct from API call
+func GetJSONFriendData(url string) FriendResponse {
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -44,7 +44,7 @@ func GetJSONData(url string) FriendResponse {
 	var friendResponse FriendResponse
 	err = json.NewDecoder(response.Body).Decode(&friendResponse)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	return friendResponse
