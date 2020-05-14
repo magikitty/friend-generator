@@ -11,7 +11,7 @@ What do you want to do? Press the number of your choice.
 `
 
 // MessageNewFriend displays after a new friend has been generated
-const MessageNewFriend = "Here's your new friend:"
+const MessageNewFriend = "\n***********************\nHere's your new friend:\n"
 
 // MessageQuit is a message for when the user quits the program
 const MessageQuit = "You quit the program. Bye bye!"
@@ -63,3 +63,19 @@ Error messages
 
 // ErrorInvalidSelection for when user makes an invalid selection in a menu
 const ErrorInvalidSelection = "invalid selection"
+
+/***************
+New Friend Info
+****************/
+
+// Name of new friend
+var Name = "Name: %v %v\n"
+
+// Age of new friend
+var Age = "Age: %v\n"
+
+// Gender of new friend
+var Gender = "Gender: %v\n"
+
+// Location of new friend
+var Location = "Lives in: %v, %v\n"
