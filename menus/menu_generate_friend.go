@@ -36,4 +36,5 @@ func generateRandomFriend() {
 	fmt.Println(utils.MessageNewFriend)
 	responseData := utils.GetJSONFriendData(utils.API)
 	utils.CreateAndPopulateFile(utils.JSONDataFilePath, responseData)
+	utils.PrintNewFriendInfo()
 }
