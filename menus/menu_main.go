@@ -23,7 +23,7 @@ func callMenuMainFunctions(menuSelection string) {
 	case utils.MenuMainOptions["2"]:
 		quit()
 	default:
-		errors.New(utils.ErrorInvalidSelection)
+		fmt.Println(errors.New(utils.ErrorInvalidSelection))
 	}
 }
 

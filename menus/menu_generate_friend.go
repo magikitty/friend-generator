@@ -24,7 +24,7 @@ func callMenuGenerateFriendFunctions(menuSelection string) {
 	case utils.MenuGenerateFriendOptions["3"]:
 		MenuMain()
 	default:
-		errors.New(utils.ErrorInvalidSelection)
+		fmt.Println(errors.New(utils.ErrorInvalidSelection))
 	}
 }
 
@@ -37,4 +37,5 @@ func generateRandomFriend() {
 	responseData := utils.GetJSONFriendData(utils.API)
 	utils.CreateAndPopulateFile(utils.JSONDataFilePath, responseData)
 	utils.PrintNewFriendInfo()
+	menuGenerateFriend()
 }
