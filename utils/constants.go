@@ -13,6 +13,9 @@ What do you want to do? Press the number of your choice.
 // MessageNewFriend displays after a new friend has been generated
 const MessageNewFriend = "\n***********************\nHere's your new friend:\n"
 
+// MessageSelectGender asks user to specify gender
+const MessageSelectGender = "\nSelect a gender for your new friend.\n"
+
 // MessageQuit is a message for when the user quits the program
 const MessageQuit = "You quit the program. Bye bye!"
 
@@ -45,12 +48,25 @@ var randomFriend = "Generate random friend"
 var customFriend = "Generate custom friend"
 var mainMenu = "Main menu"
 
+// MenuCustomGenderOptions contains the options for generating a friend with a specified gender
+var MenuCustomGenderOptions = map[string]string{
+	"1": female,
+	"2": male,
+}
+
+// Options for MenuCustomGenderOptions
+var female = "Female"
+var male = "Male"
+
 /********************
 APIs and file paths
 *********************/
 
 // API is the endpoint where API calls are made from
 const API = "https://randomuser.me/api/"
+
+// APIGender is the endpoint where calls are made for a specified gender (added to end of api call)
+const APIGender = "https://randomuser.me/api/?gender="
 
 // JSONDataFilePath is the path for the file where data is stored
 var JSONDataFilePath = directory + fileName
