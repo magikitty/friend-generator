@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"friend-generator/utils"
+	"strings"
 
 	"github.com/magikitty/menu"
 )
@@ -28,14 +29,26 @@ func callMenuGenerateFriendFunctions(menuSelection string) {
 	}
 }
 
-func generateCustomFriend() {
-	fmt.Println(utils.MessageNewFriend)
-}
-
 func generateRandomFriend() {
 	fmt.Println(utils.MessageNewFriend)
 	responseData := utils.GetJSONFriendData(utils.API)
 	utils.CreateAndPopulateFile(utils.JSONDataFilePath, responseData)
+	utils.PrintNewFriendInfo()
+	menuGenerateFriend()
+}
+
+func generateCustomFriend() {
+	generateFriendGender()
+}
+
+func generateFriendGender() {
+	fmt.Println(utils.MessageSelectGender)
+	menu.PrintMenu(utils.MenuCustomGenderOptions, true)
+	menuSelection := menu.GetMenuSelection(utils.MenuCustomGenderOptions)
+	apiGender := utils.APIGender + strings.ToLower(menuSelection)
+	responseData := utils.GetJSONFriendData(apiGender)
+	utils.CreateAndPopulateFile(utils.JSONDataFilePath, responseData)
+	fmt.Println(utils.MessageNewFriend)
 	utils.PrintNewFriendInfo()
 	menuGenerateFriend()
 }
