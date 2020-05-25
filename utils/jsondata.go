@@ -32,6 +32,7 @@ type Friend struct {
 		City    string `json:"city"`
 		Country string `json:"country"`
 	} `json:"location"`
+	Nationality string `json:"nat"`
 }
 
 // GetJSONFriendData returns JSON data of type FriendResponse struct from API call
